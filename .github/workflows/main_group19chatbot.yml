@@ -22,15 +22,15 @@ jobs:
     - name: Log in to registry
       uses: docker/login-action@v1
       with:
-        registry: https://group19bottest01.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_8b8af2266599468487a12d51797591e5 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_3f8ec955065e4938969491851e2f2a97 }}
+        registry: https://index.docker.io/v1/
+        username: ${{ secrets.AzureAppService_ContainerUsername_9c3e4a67930c4ae7be99f900591c6048 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_edb17b28cc2f4eebb9a0974a41075454 }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: group19bottest01.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_8b8af2266599468487a12d51797591e5 }}/group19bottest01/group19bottest01image:${{ github.sha }}
+        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_9c3e4a67930c4ae7be99f900591c6048 }}/d790214/group19botdocker:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'group19chatbot'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_5241e952107c4578802ce49b8643ec16 }}
-        images: 'group19bottest01.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_8b8af2266599468487a12d51797591e5 }}/group19bottest01/group19bottest01image:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_2f3b2f80e0734c69ab4b4a1d96b41c26 }}
+        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_9c3e4a67930c4ae7be99f900591c6048 }}/d790214/group19botdocker:${{ github.sha }}'
