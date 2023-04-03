@@ -1,0 +1,22 @@
+name: Publish Docker image
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+        uses: actions/checkout@v3    
+      - name: Log in to Docker Hub
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run:
+          docker login -u  $DOCKER_USER -p $DOCKER_PASSWORD
+      - name: Build the Docker image
+          run: docker build . --file  Dockerfile --tag  ${{secrets.DOCKER_USER}}/group19botdocker
+      - namd: Docker Push
+          run: docker push ${{secrets.DOCKER_USER}}/group19botdocker
