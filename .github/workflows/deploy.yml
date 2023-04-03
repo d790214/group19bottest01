@@ -1,0 +1,31 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# GitHub recommends pinning actions to a commit SHA.
+# To get a newer version, you will need to update the SHA.
+# You can also reference a tag or branch, but the action may change without warning.
+
+name: Publish Docker image
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+        uses: actions/checkout@v3    
+      - name: Log in to Docker Hub
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run:
+          docker login -u  $DOCKER_USER -p $DOCKER_PASSWORD
+      - name: Build the Docker image
+          run: docker build . --file  Dockerfile --tag  ${{secrets.DOCKER_USER}}/group19botdocker
+      - namd: Docker Push
+          run: docker push ${{secrets.DOCKER_USER}}/group19botdocker
